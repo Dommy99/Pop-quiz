@@ -10,14 +10,14 @@ var questions = [
     answer: "d. SpongeBob Square pants"
 },
 {
-  question: "What food from Philadelphia is known for its then slices of beef and melted cheese?",
-  choices: ["a. Chop cheese", "b. PB and J", "c. Cheesesteak", "d. Orange slices"],
-  answer: "c. Cheesesteak"
+  question: "What food is the Krusty Krab known for?",
+  choices: ["a. Chop cheese", "b. PB and J", "c. Krabypatty", "d. Orange slices"],
+  answer: "c. Krabypatty"
 },
 {
-  question: "Which animal(s) was/were let out?",
-  choices: ["a. Cats", "b. Turtles", "c. Nemo", "d. Dogs"],
-  answer: "d. Dogs"
+  question: "What animal does SpongeBob keep as a pet?",
+  choices: ["a. Cat", "b. Turtle", "c. Nemo", "d. Snail"],
+  answer: "d. Snail"
 },
 ];
 
@@ -60,6 +60,76 @@ function nextquestion() {
   document.getElementById("quizContainer").innerHTML = quizContent;
 }
 
+// subtracts time
+function incorrect() {
+  timeRemaining -= 10;
+  nextquestion();
+}
+
+// adds score if correct
+function correct() {
+  score += 1;
+  nextquestion();
+}
+
 function endGame() {
-  
+  clearInterval(timer);
+
+  var quizContent = `
+<h2>Game over!</h2>
+<h3>You got ${score} questions correct!</h3>
+<input type="text" id="name" placeholder="First name"> 
+<button onclick="setScore()">Save Highscore</button>`;
+
+  document.getElementById("quizContainer").innerHTML = quizContent;
+}
+
+// add to and retrieve score from local storage
+function setScore() {
+  localStorage.setItem("highscore", score);
+  localStorage.setItem("highscoreName", document.getElementById("name").value);
+  setScore();
+}
+
+function getScore() {
+  var quizContent =
+    `
+<h2>` +
+    localStorage.getItem("highscoreName") +
+    `'s highscore is:</h2>
+<h1>` +
+    localStorage.getItem("highscore") +
+    `</h1><br> 
+
+<button onclick="clearScore()">Clear score!</button><button onclick="restart()">Play Again!</button>
+
+`;
+
+  document.getElementById("quizContainer").innerHTML = quizContent;
+}
+
+// end game functions
+function clearScore() {
+  localStorage.setItem("highscore", "");
+  localStorage.setItem("highscoreName", "");
+
+  restart();
+}
+
+function restart() {
+  clearInterval(timer);
+  score = 0;
+  questionCurrent = -1;
+  timeRemaining = 0;
+  timer = null;
+
+  document.getElementById("timeRemaining").innerHTML = timeRemaining;
+
+  var quizContent = `
+<h1>
+ SpongeBob Quiz!
+</h1>
+<button onclick="start()">Start!</button>`;
+
+  document.getElementById("quizContainer").innerHTML = quizContent;
 }
