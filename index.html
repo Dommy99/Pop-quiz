@@ -9,10 +9,11 @@
   </head>
   <body>
     <div id="navBar">
-      <div class="left">
-        
+      <div class="highscore">
+        <a onclick="getScore()" href="#"><h4>View Highscore</h4></a>
       </div>
-      <div class="right">
+      <div class="timer">
+        <h4>Time: <span id="timeRemaining">0</span></h4>
       </div>
     </div>
     <div id="background-wrap">
@@ -29,6 +30,8 @@
     </div>
     <div id="quiz">
       <div id="quizContainer">
+        <h1>SpongeBob Quiz!</h1>
+        <button onclick="start()">Click here to begin!</button>
       </div>
     </div>
     <script src="./assets/js/script.js" type="text/javascript"></script>
